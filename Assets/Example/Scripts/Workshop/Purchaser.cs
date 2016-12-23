@@ -26,7 +26,7 @@ public class Purchaser : MonoBehaviour, IStoreListener
 	private static string kProductIDNonConsumable = "nonconsumable";                                                  // 非消費型製品の汎用ID
 	private static string kProductIDSubscription =  "subscription";                                                   // 定期購読製品の汎用ID
 
-	private static string kProductNameAppleConsumable =    "com.unity3d.test.services.purchasing.consumable";         // Apple App Store identifier for the consumable product.
+	private static string kProductNameAppleConsumable = "com.warapuri.unitychanrollball.coin100";         // Apple App Store identifier for the consumable product.
 	private static string kProductNameAppleNonConsumable = "com.unity3d.test.services.purchasing.nonconsumable";      // Apple App Store identifier for the non-consumable product.
 	private static string kProductNameAppleSubscription =  "com.unity3d.test.services.purchasing.subscription";       // Apple App Store identifier for the subscription product.
 
@@ -257,10 +257,12 @@ public class Purchaser : MonoBehaviour, IStoreListener
 		if (String.Equals(args.purchasedProduct.definition.id, kProductIDConsumable, StringComparison.Ordinal))
 		{
 			Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));//If the consumable item has been successfully purchased, add 100 coins to the player's in-game score.ScoreManager.score += 100;
-			// ここに消費アイテムを買った時の処理を入れる
-			// TODO: 
-			
-		}
+                                                                                                                   
+            // ここに消費アイテムを買った時の処理を入れる
+            PlayerPrefs.SetInt("CoinNum", PlayerPrefs.GetInt("CoinNum") + 100);
+            GameObject.Find("CoinNumUI").GetComponent<ScoreManager>().UpdateCoin();
+
+        }
 
 		//@Angelo: Same here for a non-consumable (in our chase, the old lady character)
 		// Or ... a non-consumable product has been purchased by this user.
@@ -268,9 +270,10 @@ public class Purchaser : MonoBehaviour, IStoreListener
 		else if (String.Equals(args.purchasedProduct.definition.id, kProductIDNonConsumable, StringComparison.Ordinal))
 		{
 			Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-			// ここに非消費アイテムを買った時の処理を入れる
-			// TODO: 
-		}// Or ... a subscription product has been purchased by this user.
+            // ここに非消費アイテムを買った時の処理を入れる
+            PlayerPrefs.SetInt("NewCharaUnlocked", 1);
+
+        }// Or ... a subscription product has been purchased by this user.
 		else if (String.Equals(args.purchasedProduct.definition.id, kProductIDSubscription, StringComparison.Ordinal))
 		{
 			Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));}// Or ... an unknown product has been purchased by this user. Fill in additional products here.

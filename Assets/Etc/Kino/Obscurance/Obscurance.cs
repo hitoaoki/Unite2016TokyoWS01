@@ -196,7 +196,7 @@ namespace Kino
             );
 
             // AO estimation
-            cb.Blit(null, rtMask, m, 0);
+            //cb.Blit(null, rtMask, m, 0);
 
             if (blurIterations > 0)
             {
